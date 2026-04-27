@@ -1,14 +1,14 @@
-import * as userService from "../services/userService.js";
+import * as userService from "../Services/userService.js";
 import generateToken from "../utils/generateToken.js";
 import User from "../Model/User.js";
 
 export const register = async (req, res) => {
   try {
     const user = await userService.createUser(req.body);
-    
+
     // ✅ Do NOT generate a token here anymore. They must wait for approval.
-    res.status(201).json({ 
-      message: "Registration successful. Please wait for admin approval before logging in.", 
+    res.status(201).json({
+      message: "Registration successful. Please wait for admin approval before logging in.",
       user: {
         _id: user._id,
         name: user.name,
@@ -28,7 +28,7 @@ export const login = async (req, res) => {
     res.json({ message: "Login successful", token: generateToken(user), user });
   } catch (error) {
     // Returns 401 for bad credentials, pending, or inactive status
-    res.status(401).json({ message: error.message }); 
+    res.status(401).json({ message: error.message });
   }
 };
 
@@ -56,7 +56,7 @@ export const getUsersByRole = async (req, res) => {
     const { role } = req.query;
     let filter = {};
     if (role) filter.role = role;
-    
+
     // ✅ Added populate here too, so assignment modals can show current managers
     const users = await User.find(filter).populate("managerId", "name email").select("-password");
     res.json(users);
@@ -93,7 +93,7 @@ export const approveUser = async (req, res) => {
 export const assignManager = async (req, res) => {
   try {
     const { managerId } = req.body;
-    
+
     // Optional: Validate that the requested manager actually exists and is a manager
     if (managerId) {
       const manager = await User.findOne({ _id: managerId, role: "manager" });
