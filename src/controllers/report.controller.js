@@ -1,4 +1,4 @@
-import * as reportService from "../services/report.service.js";
+import * as reportService from "../Services/report.service.js";
 
 // Ensure the user is an Admin or Manager before hitting the service
 const checkReportAccess = (role) => {

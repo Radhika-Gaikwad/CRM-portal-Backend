@@ -1,4 +1,4 @@
-import * as activityService from "../services/activity.service.js";
+import * as activityService from "../Services/activity.service.js";
 
 export const createActivity = async (req, res) => {
   try {
