@@ -11,7 +11,7 @@ import leadRoutes from "./routes/lead.routes.js";
 import taskRoutes from "./routes/task.routes.js";
 import dealRoutes from "./routes/deal.routes.js";
 // ✅ 1. Import the new customer routes
-import customerRoutes from "./routes/customer.routes.js"; 
+import customerRoutes from "./routes/customer.routes.js";
 import activityRoutes from "./routes/activity.routes.js";
 import reportRoutes from "./routes/report.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
@@ -21,20 +21,12 @@ import seedAdmin from "./utils/seedAdmin.js";
 
 const app = express();
 
-// ✅ FLEXIBLE CORS: Allows both 5173 and 5174
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-
+// ✅ ALLOW ALL ORIGINS
+// Setting origin to `true` dynamically reflects the requesting origin.
+// This allows any origin to connect while still permitting credentials (cookies/auth).
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or Postman)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+    origin: true,
     credentials: true,
   })
 );
@@ -53,7 +45,7 @@ app.use("/api/leads", leadRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/deals", dealRoutes);
 // ✅ 2. Mount the customer routes to the /api/customers endpoint
-app.use("/api/customers", customerRoutes); 
+app.use("/api/customers", customerRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/dashboard", dashboardRoutes);
