@@ -1,4 +1,4 @@
-import * as userService from "../Services/userService.js";
+import * as userService from "../Services/UserService.js";
 import generateToken from "../utils/generateToken.js";
 import User from "../Model/User.js";
 
